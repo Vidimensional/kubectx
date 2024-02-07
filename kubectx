@@ -18,8 +18,8 @@
 
 [[ -n $DEBUG ]] && set -x
 
-set -eou pipefail
-IFS=$'\n\t'
+set -euo pipefail
+IFS=$'\n\t '
 
 SELF_CMD="$0"
 
@@ -195,8 +195,10 @@ main() {
   if [[ -z "${KUBECTL:-}" ]]; then
     if hash kubectl 2>/dev/null; then
       KUBECTL=kubectl
-    elif hash kubectl.exe  2>/dev/null; then
+    elif hash kubectl.exe 2>/dev/null; then
       KUBECTL=kubectl.exe
+    elif hash microk8s 2>/dev/null; then
+      KUBECTL="microk8s kubectl"
     else
       echo >&2 "kubectl is not installed"
       exit 1
